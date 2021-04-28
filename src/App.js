@@ -24,10 +24,11 @@ function App() {
   const clearValue = () => {
     setID("")
     setSymbol({})
+    setCurrency("")
   }
   const buttonOnClick = () => {
     console.log(id) 
-    axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=${curr}`)
+    axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${id.toLowerCase()}&vs_currencies=${curr}`)
     .then(function ({data}) {
       console.log(data)
       setSymbol(data)
@@ -41,16 +42,19 @@ function App() {
   return (
     <div className="App">
         <TextField id="standard-basic" label="Coin ID" onChange={coinIDonChange} value={id} />
-        <TextField id="standard-basic" label="Currency" onChange={coinCurrency} value={curr} />
+        <div><TextField id="standard-basic" label="Currency" onChange={coinCurrency} value={curr} /></div>
         <Button onClick={buttonOnClick}>Submit</Button>
         <Button onClick={clearValue}>Clear</Button>
         {
           Object.keys(crypto).length > 0 &&
-          <p>{crypto["01coin"].usd}</p>
+          <p>{crypto[`${id.toLowerCase()}`][`${curr.toLowerCase()}`]}</p>
         }
+<img src="/logo192.png" style={{margin:16}}/>
     </div>
   );
 }
+// ["01coin"]
+// crypto["01coin"]["usd"]
 console.log()
 export default App;
 //test
